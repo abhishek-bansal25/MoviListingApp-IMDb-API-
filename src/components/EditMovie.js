@@ -1,17 +1,33 @@
 import axios from "axios";
-import React,{useState} from "react";
+import React, { useState } from "react";
+import { useHistory, useParams } from "react-router";
 import { Button, Header, Form } from "semantic-ui-react";
 import MovieForm from "../common/MoviForm";
 import PrimaryButton from "../common/PrimaryButton";
 
 export default function EditMovie({ setIsAdding }) {
-
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
+  const [date, setDate] = useState(null);
+  const [actor, setActor] = useState("");
+  const [producer, setProducer] = useState("");
+
+  let { id } = useParams();
+  let history = useHistory();
 
   const handleEditMovie = () => {
-    axios.put(`http://localhost:3000/streams`)
-    setIsAdding(false);
+    axios
+      .put(`http://localhost:3000/streams/${id}`, {
+        movie: name,
+        description: desc,
+        actors: actor,
+        producer: producer,
+        releaseDate: date,
+      })
+      .then(() => {
+        history.push("/");
+      });
+    // setIsAdding(false);
   };
   return (
     <div style={{ paddingTop: "20px" }}>
@@ -27,15 +43,24 @@ export default function EditMovie({ setIsAdding }) {
         </Form.Field>
         <Form.Field>
           <label>Release year</label>
-          <input placeholder="release year" />
+          <input
+            placeholder="release year"
+            onChange={(e) => setDate(e.target.value)}
+          />
         </Form.Field>
         <Form.Field>
           <label>Actor Name</label>
-          <input placeholder="Actor Name" />
+          <input
+            placeholder="Actor Name"
+            onChange={(e) => setActor(e.target.value)}
+          />
         </Form.Field>
         <Form.Field>
           <label>Producer Name</label>
-          <input placeholder="Producer Name" />
+          <input
+            placeholder="Producer Name"
+            onChange={(e) => setProducer(e.target.value)}
+          />
         </Form.Field>
         <Form.Field>
           <label>Description</label>
@@ -47,6 +72,7 @@ export default function EditMovie({ setIsAdding }) {
         </Form.Field>
       </Form>
       <Button
+        primary
         style={{ marginTop: "20px" }}
         onClick={handleEditMovie}
         type="submit"

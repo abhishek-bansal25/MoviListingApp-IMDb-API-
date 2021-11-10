@@ -6,12 +6,18 @@ import MovieForm from "../common/MoviForm";
 export default function AddMovie({ setIsAdding, getList }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
+  const [date, setDate] = useState(null);
+  const [actor, setActor] = useState("");
+  const [producer, setProducer] = useState("");
 
   const handleAddMovie = () => {
     axios
       .post("http://localhost:3000/streams", {
         movie: name,
         description: desc,
+        actors: actor,
+        producer: producer,
+        releaseDate: date,
       })
       .then(() => {
         setIsAdding(false);
@@ -33,15 +39,24 @@ export default function AddMovie({ setIsAdding, getList }) {
         </Form.Field>
         <Form.Field>
           <label>Release year</label>
-          <input placeholder="release year" />
+          <input
+            placeholder="release year"
+            onChange={(e) => setDate(e.target.value)}
+          />
         </Form.Field>
         <Form.Field>
           <label>Actor Name</label>
-          <input placeholder="Actor Name" />
+          <input
+            placeholder="Actor Name"
+            onChange={(e) => setActor(e.target.value)}
+          />
         </Form.Field>
         <Form.Field>
           <label>Producer Name</label>
-          <input placeholder="Producer Name" />
+          <input
+            placeholder="Producer Name"
+            onChange={(e) => setProducer(e.target.value)}
+          />
         </Form.Field>
         <Form.Field>
           <label>Description</label>
@@ -52,7 +67,12 @@ export default function AddMovie({ setIsAdding, getList }) {
           />
         </Form.Field>
       </Form>
-      <Button style={{ marginTop: "20px" }} onClick={handleAddMovie} type="submit">
+      <Button
+        primary
+        style={{ marginTop: "20px" }}
+        onClick={handleAddMovie}
+        type="submit"
+      >
         Add Movie
       </Button>
     </div>

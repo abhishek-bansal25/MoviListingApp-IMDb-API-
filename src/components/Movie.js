@@ -1,25 +1,38 @@
-import React from 'react'
-import { List } from 'semantic-ui-react'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { List } from "semantic-ui-react";
 
 export default function Movie() {
-  return (
-    <div>
-      <List>
-      <List.Item>
-          <List.Header>Batman</List.Header>
-          <List.Header>Release year</List.Header>
-          2012
-          <List.Header>Decription</List.Header>
-          
-          <List.Header>Actors</List.Header>
-          abhishek bansal
-          <List.Header>Producer</List.Header>
-          rubal bansal
-          
+  let { id } = useParams();
+  const [movie, setMovie] = useState({});
 
-          
+  const getMovie = () => {
+    axios.get(`http://localhost:3000/streams/${id}`).then((res) => {
+      setMovie(res.data);
+    });
+  };
+
+  useEffect(() => {
+    getMovie();
+  }, []);
+  console.log(movie, "movie arr");
+  return (
+    <div style={{ paddingTop: "20px" }}>
+      <List>
+        <List.Item>
+          <List.Header>
+            <h2>{movie.movie}</h2>
+          </List.Header>
+          <List.Header>Release year</List.Header>
+          {movie.releaseDate}
+          <List.Header>{movie.description}</List.Header>
+          <List.Header>Actors</List.Header>
+          {movie.actors}
+          <List.Header>Producer</List.Header>
+          {movie.producer}
         </List.Item>
       </List>
     </div>
-  )
+  );
 }

@@ -8,23 +8,22 @@ import axios from "axios";
 export default function MovieList() {
   const [isAdding, setIsAdding] = useState(false);
   const [list, setList] = useState([]);
+  let history = useHistory();
 
   const getList = () => {
     axios.get("http://localhost:3000/streams").then((res) => {
       setList(res.data);
     });
   };
-  console.log(list);
   const handleAddMovieButton = () => {
     setIsAdding(true);
     console.log("asd");
   };
-  let history = useHistory();
-  const handleMovieClick = () => {
-    history.push("./movie");
+  const handleMovieClick = (id) => {
+    history.push(`./movie/${id}`);
   };
   const handleEditClick = (id) => {
-    history.push("/edit");
+    history.push(`/edit/${id}`);
   };
   const handleDeleteClick = (id) => {
     axios.delete(`http://localhost:3000/streams/${id}`).then(() => {
@@ -41,10 +40,10 @@ export default function MovieList() {
         {list.map((item) => {
           return (
             <List.Item key={item.id}>
-              <List.Header onClick={handleMovieClick}>{item.movie}</List.Header>
+              <List.Header onClick={()=>handleMovieClick(item.id)}>{item.movie}</List.Header>
               {item.description}
               <List.Content floated="right">
-                <Icon onClick={()=>handleEditClick(item.id)} name="edit" />
+                <Icon onClick={() => handleEditClick(item.id)} name="edit" />
                 <Icon
                   onClick={() => handleDeleteClick(item.id)}
                   name="delete"
