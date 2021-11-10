@@ -23,10 +23,14 @@ export default function MovieList() {
   const handleMovieClick = () => {
     history.push("./movie");
   };
-  const handleEditClick = () => {
+  const handleEditClick = (id) => {
     history.push("/edit");
   };
-
+  const handleDeleteClick = (id) => {
+    axios.delete(`http://localhost:3000/streams/${id}`).then(() => {
+      getList();
+    });
+  };
   useEffect(() => {
     getList();
   }, []);
@@ -40,17 +44,28 @@ export default function MovieList() {
               <List.Header onClick={handleMovieClick}>{item.movie}</List.Header>
               {item.description}
               <List.Content floated="right">
-                <Icon onClick={handleEditClick} name="edit" />
-                <Icon name="delete" color="red" />
+                <Icon onClick={()=>handleEditClick(item.id)} name="edit" />
+                <Icon
+                  onClick={() => handleDeleteClick(item.id)}
+                  name="delete"
+                  color="red"
+                />
               </List.Content>
             </List.Item>
           );
         })}
       </List>
       {!isAdding && (
-        <PrimaryButton onClick={handleAddMovieButton} label={"Add Movie"} />
+        <Button
+          primary
+          onClick={handleAddMovieButton}
+          style={{ marginTop: "20px" }}
+          type="submit"
+        >
+          Add Movie
+        </Button>
       )}
-      {isAdding && <AddMovie setIsAdding={setIsAdding} />}
+      {isAdding && <AddMovie setIsAdding={setIsAdding} getList={getList} />}
     </div>
   );
 }
