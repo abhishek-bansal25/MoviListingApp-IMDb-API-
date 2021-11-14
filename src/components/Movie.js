@@ -8,7 +8,8 @@ export default function Movie() {
   const [movie, setMovie] = useState({});
 
   const getMovie = () => {
-    axios.get(`http://localhost:3000/streams/${id}`).then((res) => {
+    axios.get(`http://localhost:5000/streams/${id}`).then((res) => {
+      console.log(res,"movie data");
       setMovie(res.data);
     });
   };

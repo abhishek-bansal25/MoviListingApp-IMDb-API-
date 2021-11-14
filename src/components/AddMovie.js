@@ -12,7 +12,7 @@ export default function AddMovie({ setIsAdding, getList }) {
 
   const handleAddMovie = () => {
     axios
-      .post("http://localhost:3000/streams", {
+      .post("http://localhost:5000/movie", {
         movie: name,
         description: desc,
         actors: actor,

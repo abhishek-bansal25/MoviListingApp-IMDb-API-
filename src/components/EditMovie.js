@@ -17,7 +17,7 @@ export default function EditMovie({ setIsAdding }) {
 
   const handleEditMovie = () => {
     axios
-      .put(`http://localhost:3000/streams/${id}`, {
+      .put(`http://localhost:5000/movie/${id}`, {
         movie: name,
         description: desc,
         actors: actor,
@@ -77,7 +77,7 @@ export default function EditMovie({ setIsAdding }) {
         onClick={handleEditMovie}
         type="submit"
       >
-        Add Movie
+        Edit Movie
       </Button>
     </div>
   );

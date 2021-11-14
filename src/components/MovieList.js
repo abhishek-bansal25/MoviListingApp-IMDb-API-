@@ -11,7 +11,8 @@ export default function MovieList() {
   let history = useHistory();
 
   const getList = () => {
-    axios.get("http://localhost:3000/streams").then((res) => {
+    axios.get("http://localhost:5000/movie").then((res) => {
+      console.log("data",res.data);
       setList(res.data);
     });
   };
@@ -26,7 +27,7 @@ export default function MovieList() {
     history.push(`/edit/${id}`);
   };
   const handleDeleteClick = (id) => {
-    axios.delete(`http://localhost:3000/streams/${id}`).then(() => {
+    axios.delete(`http://localhost:5000/movie/${id}`).then(() => {
       getList();
     });
   };
